@@ -31,10 +31,10 @@
 - Each class object contains corresponding various attributes, properties or methods.
 - The datetime.datetime object is a single object containing all the information froma a date object and a time object. Hence, its use.
 - Two ways to get the current local date and time
-python```from datetime import datetime
-	datetime.today() which is equivalent to:
-	datetime.fromtimestamp(time.time())
-	datetime.now() which can provide more details than the other method
+	* from datetime import datetime
+	* datetime.today() which is equivalent to:
+	* datetime.fromtimestamp(time.time())
+	* datetime.now() which can provide more details than the other method
 	```
 - A datetime object can be converted to a string using the `.isoformat()` method on the datetime object. This method takes two optional arguments `sep="T"` and `timespec="Auto"`. The sep is the character to print in between the date and the time while the timespec specifies the additional component of the time to include after the date.
 
@@ -43,6 +43,6 @@ python```from datetime import datetime
 - Every Python class has a __dict__ attribute that contains a dictionary of its instance attributes.
 - The __dict__ attribute of a class can be seen by calling the Python's builtin `var()` function on the class instance or by accessing the __dict__attribute using a dot notation.
 - New elements can be added to a class' __dict__ attrubute using the `update()` function and passsing a key value pair to it like this.
-python```self.__dict__.update({"new_key": new_value})```
-- The name of a class in Python can be accessed from an instance by accessing the class' name attribute from the instance like this. 
-python```self.__class__.__name__```
+	* self.__dict__.update({"new_key": new_value})
+- The name of a class in Python can be accessed from an instance by accessing the class' name attribute from the instance like this.
+	* self.__class__.__name__
