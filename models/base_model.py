@@ -27,7 +27,7 @@ class BaseModel():
     def __str__(self):
         '''Displays a string representation of a base object'''
         return (f"{[self.__class__.__name__]} "
-                f"{(self.id)} {(self.__dict__)}")
+                f"({self.id}) {self.__dict__}")
         
     def save(self):
         '''Updates "updated_at" every time the object is changed'''
