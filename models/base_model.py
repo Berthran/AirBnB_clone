@@ -63,7 +63,10 @@ class BaseModel():
         This method is called at the instantiation
         of a class with kwargs'''
         # Remove the __class__ attribute
-        instance_dict.pop("__class__")
+        try:
+            instance_dict.pop("__class__")
+        except:
+            pass
         # Convert datetime arguments from string to datetime
         for key in instance_dict.keys():
             if ((key == "created_at") or (key == "updated_at")):
