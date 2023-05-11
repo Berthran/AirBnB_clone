@@ -30,8 +30,9 @@ class BaseModel():
         '''
         if kwargs:
             # Call function to prepare kwargs for instantiation
-            self.to_instance(kwargs)
-            # Set instance attributes from prepared kwargs items
+            self.transform_kwargs(kwargs)
+            # Set instance attributes from kwargs items
+
             self.__dict__.update(kwargs)
         else:
             # Generate a unique identifier for each base object
@@ -84,7 +85,6 @@ class BaseModel():
         except Exception:
             # Do nothing
             pass
-        # Convert datetime arguments from string to datetime objects
         for key in instance_dict.keys():
             if ((key == "created_at") or (key == "updated_at")):
                 instance_dict[key] = datetime.fromisoformat(instance_dict[key])
