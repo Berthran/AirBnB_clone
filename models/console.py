@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-import cmd
 """Class instance that inherits from the Cmd class"""
+import cmd
 
 
 class HBNBCommand(cmd.Cmd):
