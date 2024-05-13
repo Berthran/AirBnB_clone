@@ -5,7 +5,7 @@ entire project.
 
 
 Classes:
-    BaseModel: the base class of all models used in the project.
+    BaseModel: the base class of all models used in the AirBnB project.
 '''
 
 from datetime import datetime
@@ -31,10 +31,10 @@ class BaseModel():
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = self.created_at
-        # (To be updated every time object is changed)
+        # (To be updated every time an instance is saved)
 
     def __str__(self):
-        '''A human readable string representation of the object'''
+        '''Displays a human readable string representation of the object'''
         class_name = self.__class__.__name__
         instance_id = self.id
         class_dict = self.__dict__
@@ -46,6 +46,7 @@ class BaseModel():
         self.updated_at = datetime.now()
 
     def to_dict(self):
+        '''Creates a modified dictionary object of the instance'''
         model_dict = self.__dict__
         model_dict['__class__'] = self.__class__.__name__
         model_dict['created_at'] = datetime.isoformat(self.created_at)
