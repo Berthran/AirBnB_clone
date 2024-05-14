@@ -19,6 +19,16 @@ class TestBaseModel(unittest.TestCase):
         model_1 = BaseModel()
         self.assertIsInstance(model_1, BaseModel)
 
+    def test_instance_created_with_kwargs(self):
+        '''Validate that an instance of BaseModel is created
+        from a key value pair'''
+        model_1 = BaseModel()
+        model_1_attributes = model_1.to_dict()
+        model_2 = BaseModel(**model_1_attributes)
+        self.assertIn("id", model_2.__dict__.keys())
+        self.assertIn("created_at", model_2.__dict__.keys())
+        self.assertIn("updated_at", model_2.__dict__.keys())
+
     def test_id(self):
         '''Validate that the id is a str'''
         model_1 = BaseModel()
