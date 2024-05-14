@@ -52,7 +52,8 @@ class BaseModel():
         instanceAttributes['__class__'] = self.__class__.__name__
         # Change the created_at attribute to string format (isoformat)
         if (type(instanceAttributes.get("created_at")) is datetime):
-            instanceAttributes['created_at'] = datetime.isoformat(self.created_at)        # Change the updated_at attribute to string format (isoformat)
+            instanceAttributes['created_at'] = datetime.isoformat(self.created_at)
+        # Change the updated_at attribute to string format (isoformat)
         if (type(instanceAttributes.get("updated_at")) is datetime):
             instanceAttributes['updated_at'] = datetime.isoformat(self.updated_at)
         return (instanceAttributes)
