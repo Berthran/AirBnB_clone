@@ -10,6 +10,7 @@ Classes:
 
 import uuid
 import models
+from models.to_inst_attr import to_instantiable_attributes
 from datetime import datetime
 
 
@@ -40,7 +41,7 @@ class BaseModel():
             # instance is saved)
             models.storage.new(self)
         else:
-            kwargs = self.to_instantiable_attributes(**kwargs)
+            kwargs = to_instantiable_attributes(**kwargs)
             # Initialize instance with the modified attributes in kwargs
             for attribute, value in kwargs.items():
                 self.__dict__[attribute] = value
@@ -71,22 +72,3 @@ class BaseModel():
         if (type(instanceAttributes.get("updated_at")) is datetime):
             instanceAttributes['updated_at'] = datetime.isoformat(self.updated_at)
         return (instanceAttributes)
-
-    def to_instantiable_attributes(self, **kwargs):
-        '''Modifies the kwargs to be able create an instance'''
-        # Remove the "__class__" attribute
-        if "__class__" in kwargs.keys():
-            kwargs.pop("__class__")
-        # Change "created_at" attribute from string format to datetime
-        if "created_at" in kwargs.keys():
-            str_format_of_created_at = kwargs["created_at"]
-            datetime_format_of_created_at = \
-                    datetime.fromisoformat(str_format_of_created_at)
-            kwargs["created_at"] = datetime_format_of_created_at
-        # Change "updated_at" attribute from string format to datetime
-        if "updated_at" in kwargs.keys():
-            str_format_of_updated_at = kwargs["updated_at"]
-            datetime_format_of_updated_at = \
-                    datetime.fromisoformat(str_format_of_updated_at)
-            kwargs["updated_at"] = datetime_format_of_updated_at
-        return (kwargs)
