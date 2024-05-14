@@ -8,8 +8,10 @@ Classes:
     BaseModel: the base class of all models used in the AirBnB project.
 '''
 
-from datetime import datetime
 import uuid
+import models
+from datetime import datetime
+
 
 class BaseModel():
     '''A class that defines all common attributes and methods
@@ -36,25 +38,13 @@ class BaseModel():
             self.created_at = datetime.now()
             self.updated_at = self.created_at # (To be updated every time an
             # instance is saved)
+            models.storage.new(self)
         else:
-            # Remove the "__class__" attribute
-            if "__class__" in kwargs.keys():
-                kwargs.pop("__class__")
-            # Change "created_at" attribute from string format to datetime
-            if "created_at" in kwargs.keys():
-                str_format_of_created_at = kwargs["created_at"]
-                datetime_format_of_created_at = \
-                        datetime.fromisoformat(str_format_of_created_at)
-                kwargs["created_at"] = datetime_format_of_created_at
-            # Change "updated_at" attribute from string format to datetime
-            if "updated_at" in kwargs.keys():
-                str_format_of_updated_at = kwargs["updated_at"]
-                datetime_format_of_updated_at = \
-                        datetime.fromisoformat(str_format_of_updated_at)
-                kwargs["updated_at"] = datetime_format_of_updated_at
+            kwargs = self.to_instantiable_attributes(**kwargs)
             # Initialize instance with the modified attributes in kwargs
             for attribute, value in kwargs.items():
                 self.__dict__[attribute] = value
+
 
     def __str__(self):
         '''Displays a human readable string representation of the object'''
@@ -67,6 +57,7 @@ class BaseModel():
         '''Updates the public instance attribute `updated_at`with the
         current datetime'''
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         '''Creates a modified dictionary object of the instance attributes'''
@@ -80,3 +71,22 @@ class BaseModel():
         if (type(instanceAttributes.get("updated_at")) is datetime):
             instanceAttributes['updated_at'] = datetime.isoformat(self.updated_at)
         return (instanceAttributes)
+
+    def to_instantiable_attributes(self, **kwargs):
+        '''Modifies the kwargs to be able create an instance'''
+        # Remove the "__class__" attribute
+        if "__class__" in kwargs.keys():
+            kwargs.pop("__class__")
+        # Change "created_at" attribute from string format to datetime
+        if "created_at" in kwargs.keys():
+            str_format_of_created_at = kwargs["created_at"]
+            datetime_format_of_created_at = \
+                    datetime.fromisoformat(str_format_of_created_at)
+            kwargs["created_at"] = datetime_format_of_created_at
+        # Change "updated_at" attribute from string format to datetime
+        if "updated_at" in kwargs.keys():
+            str_format_of_updated_at = kwargs["updated_at"]
+            datetime_format_of_updated_at = \
+                    datetime.fromisoformat(str_format_of_updated_at)
+            kwargs["updated_at"] = datetime_format_of_updated_at
+        return (kwargs)
