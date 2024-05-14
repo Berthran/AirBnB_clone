@@ -52,7 +52,7 @@ class BaseModel():
                 datetime_format_of_updated_at = \
                         datetime.fromisoformat(str_format_of_updated_at)
                 kwargs["updated_at"] = datetime_format_of_updated_at
-            # Initialize instance with attributes in kwargs
+            # Initialize instance with the modified attributes in kwargs
             for attribute, value in kwargs.items():
                 self.__dict__[attribute] = value
 
