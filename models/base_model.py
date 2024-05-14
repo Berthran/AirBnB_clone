@@ -21,17 +21,40 @@ class BaseModel():
         of the instance
     '''
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         '''Initialize the model.
         Attributes:
             id: unique identification for each instance created
             created_at: the time the instance is created
             updated_at: the time the instance is updated
         '''
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
-        # (To be updated every time an instance is saved)
+
+        numberOfItemsInKwargs = len(kwargs.items())
+        
+        if (numberOfItemsInKwargs == 0):
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at # (To be updated every time an
+            # instance is saved)
+        else:
+            # Remove the "__class__" attribute
+            if "__class__" in kwargs.keys():
+                kwargs.pop("__class__")
+            # Change "created_at" attribute from string format to datetime
+            if "created_at" in kwargs.keys():
+                str_format_of_created_at = kwargs["created_at"]
+                datetime_format_of_created_at = \
+                        datetime.fromisoformat(str_format_of_created_at)
+                kwargs["created_at"] = datetime_format_of_created_at
+            # Change "updated_at" attribute from string format to datetime
+            if "updated_at" in kwargs.keys():
+                str_format_of_updated_at = kwargs["updated_at"]
+                datetime_format_of_updated_at = \
+                        datetime.fromisoformat(str_format_of_updated_at)
+                kwargs["updated_at"] = datetime_format_of_updated_at
+            # Initialize instance with attributes in kwargs
+            for attribute, value in kwargs.items():
+                self.__dict__[attribute] = value
 
     def __str__(self):
         '''Displays a human readable string representation of the object'''
@@ -47,7 +70,7 @@ class BaseModel():
 
     def to_dict(self):
         '''Creates a modified dictionary object of the instance attributes'''
-        instanceAttributes = self.__dict__
+        instanceAttributes = self.__dict__.copy() # Prevents changes to __dict__ object
         # Add a __class__ attribute with the class name as it's value
         instanceAttributes['__class__'] = self.__class__.__name__
         # Change the created_at attribute to string format (isoformat)
