@@ -46,10 +46,11 @@ class BaseModel():
         self.updated_at = datetime.now()
 
     def to_dict(self):
-        model_dict = self.__dict__
-        model_dict['__class__'] = self.__class__.__name__
-        model_dict['created_at'] = datetime.isoformat(self.created_at)
-        model_dict['updated_at'] = datetime.isoformat(self.updated_at)
-        return (model_dict)
-
-
+        instanceAttributes = self.__dict__
+        # Add a __class__ attribute with the class name as it's value
+        instanceAttributes['__class__'] = self.__class__.__name__
+        # Change the created_at attribute to string format (isoformat)
+        if (type(instanceAttributes.get("created_at")) is datetime):
+            instanceAttributes['created_at'] = datetime.isoformat(self.created_at)        # Change the updated_at attribute to string format (isoformat)
+        if (type(instanceAttributes.get("updated_at")) is datetime):
+            instanceAttributes['updated_at'] = datetime.isoformat(self.updated_at)        return (instanceAttributes)
