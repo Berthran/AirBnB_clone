@@ -35,10 +35,10 @@ class BaseModel():
 
     def __str__(self):
         '''Displays a human readable string representation of the object'''
-        class_name = self.__class__.__name__
-        instance_id = self.id
-        class_dict = self.__dict__
-        return (f"[{class_name}] ({instance_id}) {class_dict}")
+        className = self.__class__.__name__
+        instanceId = self.id
+        instanceAttributes = self.__dict__
+        return (f"[{className}] ({instanceId}) {instanceAttributes}")
 
     def save(self):
         '''Updates the public instance attribute `updated_at`with the
