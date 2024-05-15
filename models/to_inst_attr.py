@@ -15,14 +15,16 @@ def to_instantiable_attributes(**kwargs):
         kwargs.pop("__class__")
     # Change "created_at" attribute from string format to datetime
     if "created_at" in kwargs.keys():
-        str_format_of_created_at = kwargs["created_at"]
-        datetime_format_of_created_at = \
-                datetime.fromisoformat(str_format_of_created_at)
-        kwargs["created_at"] = datetime_format_of_created_at
+        if (type(kwargs['created_at']) is str):
+            str_format_of_created_at = kwargs["created_at"]
+            datetime_format_of_created_at = \
+                    datetime.fromisoformat(str_format_of_created_at)
+            kwargs["created_at"] = datetime_format_of_created_at
     # Change "updated_at" attribute from string format to datetime
     if "updated_at" in kwargs.keys():
-        str_format_of_updated_at = kwargs["updated_at"]
-        datetime_format_of_updated_at = \
-                datetime.fromisoformat(str_format_of_updated_at)
-        kwargs["updated_at"] = datetime_format_of_updated_at
+        if (type(kwargs['updated_at']) is str):
+            str_format_of_updated_at = kwargs["updated_at"]
+            datetime_format_of_updated_at = \
+                    datetime.fromisoformat(str_format_of_updated_at)
+            kwargs["updated_at"] = datetime_format_of_updated_at
     return (kwargs)
