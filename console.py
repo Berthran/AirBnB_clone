@@ -7,7 +7,8 @@ import cmd
 import uuid
 from datetime import datetime
 
-class HBNBConsole(cmd.Cmd):
+
+class HBNBCommand(cmd.Cmd):
     '''
     Instance of a cmd session
     '''
@@ -15,5 +16,6 @@ class HBNBConsole(cmd.Cmd):
     prompt = "(hbnb) "
 
 
+
 if __name__ == "__main__":
-    console().cmdloop()
+    HBNBCommand().cmdloop()
