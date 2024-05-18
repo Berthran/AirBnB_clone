@@ -23,6 +23,10 @@ class HBNBCommand(cmd.Cmd):
         '''Terminates the cmd session'''
         quit()
 
+    def do_help(sef, arg):
+        '''Provide bried description of available commands'''
+        cmd.Cmd.do_help(self, arg)
+
 
 
 if __name__ == "__main__":
