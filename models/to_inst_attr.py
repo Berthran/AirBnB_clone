@@ -4,14 +4,14 @@ Modifies the attributes (key/value pair) in a dictionary object,
 to one that can be used to create an instance of a specified type.
 
 Functions:
-    to_instantiable_attributes: takes the attributes and suit them up for instantiation
+    modifyKwargsForInstantiation: takes the attributes and suit them up for instantiation
 '''
 
 
 from datetime import datetime
 
 
-def to_instantiable_attributes(**kwargs):
+def modifyKwargsForInstantiation(**kwargs):
     '''Modifies the keyword arguments to be able to create an instance with them
     Returns the modified keyword arguments
     '''
