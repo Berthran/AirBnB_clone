@@ -15,6 +15,10 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
+    def do_quit(self, arg):
+        '''Terminate the cmd session'''
+        quit()
+
 
 
 if __name__ == "__main__":
