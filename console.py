@@ -23,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
         '''Terminates the cmd session'''
         quit()
 
-    def do_help(sef, arg):
+    def do_help(self, arg):
         '''Provide bried description of available commands'''
         cmd.Cmd.do_help(self, arg)
 
