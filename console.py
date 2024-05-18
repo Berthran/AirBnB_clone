@@ -27,6 +27,10 @@ class HBNBCommand(cmd.Cmd):
         '''Provide bried description of available commands'''
         cmd.Cmd.do_help(self, arg)
 
+    def emptyline(sef):
+        '''Handle empty line commands'''
+        pass
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
