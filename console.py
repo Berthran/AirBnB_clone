@@ -19,6 +19,10 @@ class HBNBCommand(cmd.Cmd):
         '''Terminate the cmd session'''
         quit()
 
+    def do_EOF(self, arg):
+        '''Terminates the cmd session'''
+        quit()
+
 
 
 if __name__ == "__main__":
