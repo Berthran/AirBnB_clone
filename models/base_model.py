@@ -75,7 +75,7 @@ class BaseModel():
         instanceAttributes = self.__dict__.copy()
         # Add a __class__ attribute to the instance attributes,
         # with the class name as it's value
-        instanceAttributes.update('__class__'] = self.__class__.__name__
+        instanceAttributes['__class__'] = self.__class__.__name__
         # Change the created_at attribute to string format (isoformat)
         if (type(instanceAttributes.get("created_at")) is datetime):
             instanceAttributes['created_at'] = \

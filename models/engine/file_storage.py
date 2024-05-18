@@ -10,7 +10,7 @@ Class:
 
 import json
 from models.base_model import BaseModel
-from models.to_inst_attr import to_instantiable_attributes
+from models.to_inst_attr import modifyKwargsForInstantiation
 
 
 class FileStorage():
@@ -76,7 +76,7 @@ class FileStorage():
                     # Modify the data to remove and convert necessary data
                     # suitable for instantiation
                     instance_attributes = \
-                            to_instantiable_attributes(**inst_dict)
+                            modifyKwargsForInstantiation(**inst_dict)
                     # Create an instance based on the class name
                     baseModel = BaseModel(**instance_attributes)
                     # Add instance to <objects> attribute
