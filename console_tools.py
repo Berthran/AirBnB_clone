@@ -7,9 +7,10 @@ destroying an instance, displaying multiple instances and updating instances.
 
 '''
 
-
+from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
+
 
 def hasOnlyClassNameArgument(classNameArgument):
     '''Checks that <classNameArgument> has only the class
@@ -19,13 +20,18 @@ def hasOnlyClassNameArgument(classNameArgument):
         return (True)
     return (False)
 
+
 def classExists(classNameArgument):
     '''Returns true if the classNameArgument is an existing class object
     in the module's namespace'''
     nameSpaceOfModule = globals()
-    if (classNameArgument in nameSpaceOfModule):
+    className = classNameArgument.split()[0]
+    if (className in nameSpaceOfModule):
         return (True)
-    return (False)
+    else:
+        print("** class doesn't exist **")
+        return (False)
+
 
 def isValidClassNameArgument(classNameArgument):
     '''Confirms the <classNameArgument> is a valid class name'''
@@ -44,16 +50,47 @@ def createClassInstance(classNameArgument):
         if className == classNameArgument:
             return (classInstance)
 
+
 def saveClassInstanceToJSONFile(classInstance):
     '''Saves the class instance to a JSON file'''
     classInstance.save()
+
 
 def hasInstanceId(classNameAndIdArgument):
     '''Checks if the argument has an ID argument'''
     if (len(classNameAndIdArgument.split()) == 2):
         return (True)
-    print("** instance id missing **")
-    return (False)
+    else:
+        print("** instance id missing **")
+        return (False)
 
 
+def createInstanceKey(classNameAndIdArgument):
+    '''Create a key from className and Id'''
+    instanceKey = classNameAndIdArgument.replace(" ", ".")
+    return (instanceKey)
 
+
+def getInstanceFromRecord(instanceKey):
+    '''Returns instance from the instance record using its className and Id'''
+    instanceRecords = storage.all()
+    instance = instanceRecords.get(instanceKey)
+    return (instance)
+
+
+def instanceExists(classNameAndIdArgument):
+    '''Checks that both classname and id corresponding to an existing
+    class instance'''
+    instanceKey = createInstanceKey(classNameAndIdArgument)
+    instanceRecords = storage.all()
+    if (instanceKey in instanceRecords.keys()):
+        return (True)
+    else:
+        print("** no instance found **")
+        return (False)
+
+
+def showInstance(instance):
+    '''Prints the string representation of an instance based
+    on the class name and id arguments'''
+    print(instance)
