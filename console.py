@@ -7,9 +7,10 @@ import cmd
 import uuid
 from datetime import datetime
 from models.base_model import BaseModel
-from console_tools import createClassInstance
-from console_tools import isValidClassNameArgument
-from console_tools import saveClassInstanceToJSONFile
+from console_tools import classExists, isValidClassNameArgument
+from console_tools import createClassInstance, saveClassInstanceToJSONFile
+from console_tools import hasInstanceId, instanceExists, createInstanceKey
+from console_tools import getInstanceFromRecord, showInstance
 
 
 class HBNBCommand(cmd.Cmd):
@@ -42,12 +43,28 @@ class HBNBCommand(cmd.Cmd):
         if classNameArgument == empty:
             print("** class name missing **")
         else:
-            if (isValidClassNameArgument(classNameArgument)):
-                    newClassInstance = createClassInstance(classNameArgument)
-                    saveClassInstanceToJSONFile(newClassInstance)
-                    print(newClassInstance.id)
-            else:
-                print("** class doesn't exist **")
+            check = isValidClassNameArgument(classNameArgument)
+            if (check is True):
+                newClassInstance = createClassInstance(classNameArgument)
+                saveClassInstanceToJSONFile(newClassInstance)
+                print(newClassInstance.id)
+
+    def do_show(self, classNameAndIdArgument):
+        '''Prints the string representation of an instance based
+        on the class name and id arguments'''
+        empty = ""
+        if classNameAndIdArgument == empty:
+            print("** class name missing **")
+        else:
+            check = classExists(classNameAndIdArgument)
+            if (check is True):
+                check = hasInstanceId(classNameAndIdArgument)
+                if (check is True):
+                    check = instanceExists(classNameAndIdArgument)
+                    if (check is True):
+                        instanceKey = createInstanceKey(classNameAndIdArgument)
+                        instance = getInstanceFromRecord(instanceKey)
+                        showInstance(instance)
 
 
 if __name__ == "__main__":
