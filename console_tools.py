@@ -7,6 +7,7 @@ destroying an instance, displaying multiple instances and updating instances.
 
 '''
 
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
@@ -171,3 +172,49 @@ def displaySpecificInstances(classNameArgument):
     instances'''
     listOfInstances = createListOfInstances(classNameArgument)
     print(listOfInstances)
+
+
+# do_update() function tools
+# ==========================
+
+def hasAttributeName(classNameIdAttributesArgument):
+    '''Checks if the given argument has an attribute name'''
+    numberOfArguments = len(classNameIdAttributesArgument.split())
+    if (numberOfArguments < 3):
+        print("** attribute name missing **")
+        return (False)
+    return (True)
+
+
+def hasAttributeValue(classNameIdAttributesArgument):
+    '''Checks if the given argument has an attribute value'''
+    numberOfArguments = len(classNameIdAttributesArgument.split())
+    if (numberOfArguments < 4):
+        print("** value missing **")
+        return (False)
+    return (True)
+
+
+def convertAttributeValueToRightType(attributeValue):
+    '''Checks the pattern of the attribute value and convert
+    to the right type'''
+    int_pattern = re.compile(r'^\d+$')
+    float_pattern = re.compile(r'^\d+\.\d+$')
+
+    if (int_pattern.match(attributeValue)):
+        attributeValue = int(attributeValue)
+    elif (float_pattern.match(attributeValue)):
+        attributeValue = float(attributeValue)
+    return (attributeValue)
+
+
+def updateInstanceWithAttributeAndValue(classNameIdAttributesArgument):
+    '''Updates or assign a new attribute to the instance'''
+    className, instanceId, attributeName, attributeValue = \
+        classNameIdAttributesArgument.split()[:4]
+    instanceKey = className + "." + instanceId
+    instance = getInstanceFromRecord(instanceKey)
+    attributeValue = convertAttributeValueToRightType(attributeValue)
+    instance.__dict__.update({attributeName: attributeValue})
+
+    saveClassInstanceToJSONFile(instance)
