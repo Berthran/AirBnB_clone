@@ -101,6 +101,38 @@ def removeInstanceFromRecord(instanceKey):
     instanceRecords = storage.all()
     instanceRecords.pop(instanceKey)
 
+
 def saveChangesOnInstanceRecordToJSONFile():
     '''Updates the instance record with latest changes'''
     storage.save()
+
+
+def createListOfInstances(classNameArgument=""):
+    '''Creates a list of all instances  in the instance records or
+    just the instances specified by classNameArguments'''
+    empty = ''
+    instanceRecords = storage.all()
+    listOfInstances = []
+    if (classNameArgument == empty):
+        for instance in instanceRecords.values():
+            listOfInstances.append(str(instance))
+    else:
+        for instanceId, instance in instanceRecords.items():
+            className = instanceId.split(".")[0]
+            if (className == classNameArgument):
+                listOfInstances.append(str(instance))
+    return (listOfInstances)
+
+
+def displayAllInstances():
+    '''Displays a list of the string representation of all instances in
+    the instance record'''
+    listOfInstances = createListOfInstances()
+    print(listOfInstances)
+
+
+def displaySpecificInstances(classNameArgument):
+    '''Displays a list of the string representation of the classNameArgument
+    instances'''
+    listOfInstances = createListOfInstances(classNameArgument)
+    print(listOfInstances)
