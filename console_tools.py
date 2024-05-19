@@ -11,19 +11,33 @@ destroying an instance, displaying multiple instances and updating instances.
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
-def isValidClassNameArgument(classNameArgument):
-    '''Checks the argument(s) in classNameArgument'''
+def hasOnlyClassNameArgument(classNameArgument):
+    '''Checks that <classNameArgument> has only the class
+    name as its argument'''
     noOfArgsInClassNameArgument = len(classNameArgument.split())
-    nameSpaceOfModule = globals()
-    if (noOfArgsInClassNameArgument != 1):
-        return (0)
-    if (classNameArgument not in nameSpaceOfModule):
-        return (0)
-    return (1)
+    if (noOfArgsInClassNameArgument == 1):
+        return (True)
+    return (False)
 
-def getAndCreateClassInstance(classNameArgument):
-    '''Retrieves the class object from the class name and
-    creates an instance of the class'''
+def classExists(classNameArgument):
+    '''Returns true if the classNameArgument is an existing class object
+    in the module's namespace'''
+    nameSpaceOfModule = globals()
+    if (classNameArgument in nameSpaceOfModule):
+        return (True)
+    return (False)
+
+def isValidClassNameArgument(classNameArgument):
+    '''Confirms the <classNameArgument> is a valid class name'''
+    if (hasOnlyClassNameArgument(classNameArgument)):
+        if (classExists(classNameArgument)):
+            return (True)
+        return (False)
+    return (False)
+
+
+def createClassInstance(classNameArgument):
+    '''Creates an instance of the class given by the classNameArgument'''
     availableClasses = {"BaseModel": BaseModel(),
                         "FileStorage": FileStorage()}
     for className, classInstance in availableClasses.items():
@@ -31,6 +45,15 @@ def getAndCreateClassInstance(classNameArgument):
             return (classInstance)
 
 def saveClassInstanceToJSONFile(classInstance):
-    '''Saves the class instance to a JSON file and prints its id'''
+    '''Saves the class instance to a JSON file'''
     classInstance.save()
-    print(classInstance.id)
+
+def hasInstanceId(classNameAndIdArgument):
+    '''Checks if the argument has an ID argument'''
+    if (len(classNameAndIdArgument.split()) == 2):
+        return (True)
+    print("** instance id missing **")
+    return (False)
+
+
+
