@@ -13,6 +13,7 @@ from console_tools import createClassInstance, saveClassInstanceToJSONFile
 from console_tools import hasInstanceId, instanceExists, createInstanceKey
 from console_tools import getInstanceFromRecord, showInstance, removeInstanceFromRecord
 from console_tools import saveChangesOnInstanceRecordToJSONFile
+from console_tools import displayAllInstances, displaySpecificInstances
 
 
 class HBNBCommand(cmd.Cmd):
@@ -83,8 +84,18 @@ class HBNBCommand(cmd.Cmd):
                         instanceKey = createInstanceKey(classNameAndIdArgument)
                         removeInstanceFromRecord(instanceKey)
                         saveChangesOnInstanceRecordToJSONFile()
-                        
-                        
+
+    def do_all(self, optionalClassNameArgument):
+        '''Displays the string representation of all instances in the
+        instance records'''
+        empty = ""
+        if (optionalClassNameArgument == empty):
+            displayAllInstances()
+        else:
+            check = classExists(optionalClassNameArgument)
+            if (check is True):
+                displaySpecificInstances(optionalClassNameArgument)
+
 
 
 if __name__ == "__main__":
