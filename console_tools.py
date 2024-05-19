@@ -12,6 +12,26 @@ from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
 
+def processClassNameIdArgumentToGetInstanceKey(classNameAndIdArgument):
+    '''Process the classNameAndIdArgument'''
+    empty = ""
+    if classNameAndIdArgument == empty:
+        print("** class name missing **")
+        return (None)
+    else:
+        check = classExists(classNameAndIdArgument)
+        if (check is True):
+            check = hasInstanceId(classNameAndIdArgument)
+            if (check is True):
+                check = instanceExists(classNameAndIdArgument)
+                if (check is True):
+                    instanceKey = createInstanceKey(classNameAndIdArgument)
+                    return (instanceKey)
+                return (None)
+            return (None)
+        return (None)
+
+
 def hasOnlyClassNameArgument(classNameArgument):
     '''Checks that <classNameArgument> has only the class
     name as its argument'''
@@ -42,20 +62,6 @@ def isValidClassNameArgument(classNameArgument):
     return (False)
 
 
-def createClassInstance(classNameArgument):
-    '''Creates an instance of the class given by the classNameArgument'''
-    availableClasses = {"BaseModel": BaseModel(),
-                        "FileStorage": FileStorage()}
-    for className, classInstance in availableClasses.items():
-        if className == classNameArgument:
-            return (classInstance)
-
-
-def saveClassInstanceToJSONFile(classInstance):
-    '''Saves the class instance to a JSON file'''
-    classInstance.save()
-
-
 def hasInstanceId(classNameAndIdArgument):
     '''Checks if the argument has an ID argument'''
     if (len(classNameAndIdArgument.split()) == 2):
@@ -63,19 +69,6 @@ def hasInstanceId(classNameAndIdArgument):
     else:
         print("** instance id missing **")
         return (False)
-
-
-def createInstanceKey(classNameAndIdArgument):
-    '''Create a key from className and Id'''
-    instanceKey = classNameAndIdArgument.replace(" ", ".")
-    return (instanceKey)
-
-
-def getInstanceFromRecord(instanceKey):
-    '''Returns instance from the instance record using its className and Id'''
-    instanceRecords = storage.all()
-    instance = instanceRecords.get(instanceKey)
-    return (instance)
 
 
 def instanceExists(classNameAndIdArgument):
@@ -90,11 +83,47 @@ def instanceExists(classNameAndIdArgument):
         return (False)
 
 
+def createInstanceKey(classNameAndIdArgument):
+    '''Create a key from className and Id'''
+    instanceKey = classNameAndIdArgument.replace(" ", ".")
+    return (instanceKey)
+
+
+# do_create() function tools
+# ==========================
+
+def createClassInstance(classNameArgument):
+    '''Creates an instance of the class given by the classNameArgument'''
+    availableClasses = {"BaseModel": BaseModel(),
+                        "FileStorage": FileStorage()}
+    for className, classInstance in availableClasses.items():
+        if className == classNameArgument:
+            return (classInstance)
+
+
+def saveClassInstanceToJSONFile(classInstance):
+    '''Saves the class instance to a JSON file'''
+    classInstance.save()
+
+
+# do_show() function tools
+# ========================
+
+def getInstanceFromRecord(instanceKey):
+    '''Returns instance from the instance record using its className and Id'''
+    instanceRecords = storage.all()
+    instance = instanceRecords.get(instanceKey)
+    return (instance)
+
+
 def showInstance(instance):
     '''Prints the string representation of an instance based
     on the class name and id arguments'''
     print(instance)
 
+
+# do_destroy() function tools
+# ===========================
 
 def removeInstanceFromRecord(instanceKey):
     '''Removes an instance from the instance records'''
@@ -106,6 +135,9 @@ def saveChangesOnInstanceRecordToJSONFile():
     '''Updates the instance record with latest changes'''
     storage.save()
 
+
+# do_show() function tools
+# ========================
 
 def createListOfInstances(classNameArgument=""):
     '''Creates a list of all instances  in the instance records or
@@ -123,6 +155,9 @@ def createListOfInstances(classNameArgument=""):
                 listOfInstances.append(str(instance))
     return (listOfInstances)
 
+
+# do_all() function tools
+# =======================
 
 def displayAllInstances():
     '''Displays a list of the string representation of all instances in
