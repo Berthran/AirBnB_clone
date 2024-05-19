@@ -7,8 +7,8 @@ import cmd
 import uuid
 from datetime import datetime
 from models.base_model import BaseModel
+from console_tools import createClassInstance
 from console_tools import isValidClassNameArgument
-from console_tools import getAndCreateClassInstance
 from console_tools import saveClassInstanceToJSONFile
 
 
@@ -42,11 +42,23 @@ class HBNBCommand(cmd.Cmd):
         if classNameArgument == empty:
             print("** class name missing **")
         else:
-            if(isValidClassNameArgument(classNameArgument)):
-                newClassInstance = getAndCreateClassInstance(classNameArgument)
-                saveClassInstanceToJSONFile(newClassInstance)
+            if (isValidClassNameArgument(classNameArgument)):
+                    newClassInstance = createClassInstance(classNameArgument)
+                    saveClassInstanceToJSONFile(newClassInstance)
+                    print(newClassInstance.id)
             else:
                 print("** class doesn't exist **")
+
+    def do_show(self, classNameAndIdArgument):
+        '''Prints the string representation of an instance based
+        on the class name and id'''
+        empty = ""
+        if classNameAndIdArgument == empty:
+            print("** class name missing **")
+        else:
+            if (hasInstanceId(classNameAndIdArgument):
+                    if (isValidClass
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
