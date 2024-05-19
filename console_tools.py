@@ -94,3 +94,13 @@ def showInstance(instance):
     '''Prints the string representation of an instance based
     on the class name and id arguments'''
     print(instance)
+
+
+def removeInstanceFromRecord(instanceKey):
+    '''Removes an instance from the instance records'''
+    instanceRecords = storage.all()
+    instanceRecords.pop(instanceKey)
+
+def saveChangesOnInstanceRecordToJSONFile():
+    '''Updates the instance record with latest changes'''
+    storage.save()
