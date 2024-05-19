@@ -11,15 +11,13 @@ destroying an instance, displaying multiple instances and updating instances.
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
-def isValidClassNameArgument(classNameArgument, nameSpaceOfModule):
+def isValidClassNameArgument(classNameArgument):
     '''Checks the argument(s) in classNameArgument'''
     noOfArgsInClassNameArgument = len(classNameArgument.split())
+    nameSpaceOfModule = globals()
     if (noOfArgsInClassNameArgument != 1):
-        print("args count fail")
         return (0)
     if (classNameArgument not in nameSpaceOfModule):
-        print("class name fail")
-        print(nameSpaceOfModule)
         return (0)
     return (1)
 
