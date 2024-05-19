@@ -49,16 +49,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** class doesn't exist **")
 
-    def do_show(self, classNameAndIdArgument):
-        '''Prints the string representation of an instance based
-        on the class name and id'''
-        empty = ""
-        if classNameAndIdArgument == empty:
-            print("** class name missing **")
-        else:
-            if (hasInstanceId(classNameAndIdArgument):
-                    if (isValidClass
-
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
