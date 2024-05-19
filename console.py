@@ -11,9 +11,11 @@ from models.base_model import BaseModel
 from console_tools import classExists, isValidClassNameArgument
 from console_tools import createClassInstance, saveClassInstanceToJSONFile
 from console_tools import hasInstanceId, instanceExists, createInstanceKey
-from console_tools import getInstanceFromRecord, showInstance, removeInstanceFromRecord
+from console_tools import getInstanceFromRecord, showInstance
+from console_tools import removeInstanceFromRecord
 from console_tools import saveChangesOnInstanceRecordToJSONFile
 from console_tools import displayAllInstances, displaySpecificInstances
+from console_tools import processClassNameIdArgumentToGetInstanceKey
 
 
 class HBNBCommand(cmd.Cmd):
@@ -55,35 +57,20 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, classNameAndIdArgument):
         '''Prints the string representation of an instance based
         on the class name and id arguments'''
-        empty = ""
-        if classNameAndIdArgument == empty:
-            print("** class name missing **")
-        else:
-            check = classExists(classNameAndIdArgument)
-            if (check is True):
-                check = hasInstanceId(classNameAndIdArgument)
-                if (check is True):
-                    check = instanceExists(classNameAndIdArgument)
-                    if (check is True):
-                        instanceKey = createInstanceKey(classNameAndIdArgument)
-                        instance = getInstanceFromRecord(instanceKey)
-                        showInstance(instance)
+        instanceKey = \
+            processClassNameIdArgumentToGetInstanceKey(classNameAndIdArgument)
+        if (instanceKey is not None):
+            instance = getInstanceFromRecord(instanceKey)
+            showInstance(instance)
 
     def do_destroy(self, classNameAndIdArgument):
-        '''Removes an instance from the instance records and saves the changes'''
-        empty = ""
-        if classNameAndIdArgument == empty:
-            print("** class name missing **")
-        else:
-            check = classExists(classNameAndIdArgument)
-            if (check is True):
-                check = hasInstanceId(classNameAndIdArgument)
-                if (check is True):
-                    check = instanceExists(classNameAndIdArgument)
-                    if (check is True):
-                        instanceKey = createInstanceKey(classNameAndIdArgument)
-                        removeInstanceFromRecord(instanceKey)
-                        saveChangesOnInstanceRecordToJSONFile()
+        '''Removes an instance from the instance records
+        and saves the changes'''
+        instanceKey = \
+            processClassNameIdArgumentToGetInstanceKey(classNameAndIdArgument)
+        if (instanceKey is not None):
+            removeInstanceFromRecord(instanceKey)
+            saveChangesOnInstanceRecordToJSONFile()
 
     def do_all(self, optionalClassNameArgument):
         '''Displays the string representation of all instances in the
