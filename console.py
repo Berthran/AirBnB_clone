@@ -16,6 +16,8 @@ from console_tools import removeInstanceFromRecord
 from console_tools import saveChangesOnInstanceRecordToJSONFile
 from console_tools import displayAllInstances, displaySpecificInstances
 from console_tools import processClassNameIdArgumentToGetInstanceKey
+from console_tools import updateInstanceWithAttributeAndValue
+from console_tools import hasAttributeValue, hasAttributeName
 
 
 class HBNBCommand(cmd.Cmd):
@@ -83,6 +85,19 @@ class HBNBCommand(cmd.Cmd):
             if (check is True):
                 displaySpecificInstances(optionalClassNameArgument)
 
+    def do_update(self, classNameIdAttributes):
+        '''Updates an instance identified by CLassName and Id
+        with the attributes'''
+        className, instanceId = classNameIdAttributes.split()[:2]
+        classNameAndId = className + " " + instanceId
+        instanceKey = \
+            processClassNameIdArgumentToGetInstanceKey(classNameAndId)
+        if (instanceKey is not None):
+            check_attributeName = hasAttributeName(classNameIdAttributes)
+            if (check_attributeName is True):
+                check_attributeValue = hasAttributeValue(classNameIdAttributes)
+                if (check_attributeValue is True):
+                    updateInstanceWithAttributeAndValue(classNameIdAttributes)
 
 
 if __name__ == "__main__":
