@@ -5,12 +5,14 @@ A command line interpreter for manipulating objects/instances.
 
 import cmd
 import uuid
+from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
 from console_tools import classExists, isValidClassNameArgument
 from console_tools import createClassInstance, saveClassInstanceToJSONFile
 from console_tools import hasInstanceId, instanceExists, createInstanceKey
-from console_tools import getInstanceFromRecord, showInstance
+from console_tools import getInstanceFromRecord, showInstance, removeInstanceFromRecord
+from console_tools import saveChangesOnInstanceRecordToJSONFile
 
 
 class HBNBCommand(cmd.Cmd):
@@ -65,6 +67,24 @@ class HBNBCommand(cmd.Cmd):
                         instanceKey = createInstanceKey(classNameAndIdArgument)
                         instance = getInstanceFromRecord(instanceKey)
                         showInstance(instance)
+
+    def do_destroy(self, classNameAndIdArgument):
+        '''Removes an instance from the instance records and saves the changes'''
+        empty = ""
+        if classNameAndIdArgument == empty:
+            print("** class name missing **")
+        else:
+            check = classExists(classNameAndIdArgument)
+            if (check is True):
+                check = hasInstanceId(classNameAndIdArgument)
+                if (check is True):
+                    check = instanceExists(classNameAndIdArgument)
+                    if (check is True):
+                        instanceKey = createInstanceKey(classNameAndIdArgument)
+                        removeInstanceFromRecord(instanceKey)
+                        saveChangesOnInstanceRecordToJSONFile()
+                        
+                        
 
 
 if __name__ == "__main__":
