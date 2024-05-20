@@ -82,5 +82,5 @@ class FileStorage():
                                                   **instanceAttributes)
                     # Add instance to <objects> attribute
                     self.new(instance)
-        except Exception as e:
-            print(e)
+        except Exception:
+            pass
