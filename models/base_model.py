@@ -10,7 +10,7 @@ Classes:
 
 import uuid
 import models
-from models.to_inst_attr import modifyKwargsForInstantiation
+from models.reload_tools import modifyKwargsForInstantiation
 from datetime import datetime
 
 
