@@ -9,8 +9,8 @@ Class:
 '''
 
 import json
-from models.base_model import BaseModel
-from models.to_inst_attr import modifyKwargsForInstantiation
+from models.reload_tools import createInstanceByClassName
+from models.reload_tools import modifyKwargsForInstantiation
 
 
 class FileStorage():
@@ -50,8 +50,6 @@ class FileStorage():
         # A container to store the serialized instances
         instance_storage = {}
         for instance_id, instance in FileStorage.__objects.items():
-            # Modifying the instances serialization-unfriendly attributes using to_dict() method and
-            # storing the modified attributes in the container created above using their instance ID
             instance_storage[instance_id] = instance.to_dict()
         # Serializing the instances to JSON string
         instance_storage_in_JSON = json.dumps(instance_storage)
@@ -65,21 +63,17 @@ class FileStorage():
         try:
             # Open file.json only if it exists
             with open(FileStorage.__file_path, "r") as json_file:
-                # Extracting JSON string from file
-                objectsInStringFormat = json_file.read()
-                # Deserializing JSON string to dict type
-                objectsInDictForm = json.loads((objectsInStringFormat))
-                # Creating an instance for each instance data in the file
-                for inst_dict in objectsInDictForm.values():
-                    # Get the name of the class each instance data belongs to
-                    class_name = inst_dict["__class__"]
-                    # Modify the data to remove and convert necessary data
-                    # suitable for instantiation
-                    instance_attributes = \
-                            modifyKwargsForInstantiation(**inst_dict)
-                    # Create an instance based on the class name
-                    baseModel = BaseModel(**instance_attributes)
+                recordOfInstancesInStringFormat = json_file.read()
+                recordOfinstancesInDictForm = \
+                        json.loads((recordOfinstancesInStringFormat))
+                for instanceRecord in recordOfInstancesInDictForm.values():
+                    classNameOfInstance = instanceRecord["__class__"]
+                    instanceAttributes = \
+                        modifyKwargsForInstantiation(**inst_dict)
+                    instance = \
+                        createInstanceByClassName(classNameOfInstance,
+                                **instanceAttributes)
                     # Add instance to <objects> attribute
-                    self.new(baseModel)
+                    self.new(instance)
         except Exception:
             pass
