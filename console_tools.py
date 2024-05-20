@@ -9,7 +9,12 @@ destroying an instance, displaying multiple instances and updating instances.
 
 import re
 from models import storage
+from models.city import City
 from models.user import User
+from models.state import State
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
@@ -98,7 +103,12 @@ def createClassInstance(classNameArgument):
     '''Creates an instance of the class given by the classNameArgument'''
     availableClasses = {"BaseModel": BaseModel(),
                         "FileStorage": FileStorage(),
-                        "User": User()}
+                        "User": User(),
+                        "State:" State(),
+                        "City": City(),
+                        "Amenity": Amenity(),
+                        "Place": Place(),
+                        "Review": Review()}
     for className, classInstance in availableClasses.items():
         if className == classNameArgument:
             return (classInstance)
