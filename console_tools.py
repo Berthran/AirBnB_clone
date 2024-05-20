@@ -200,11 +200,13 @@ def convertAttributeValueToRightType(attributeValue):
     to the right type'''
     int_pattern = re.compile(r'^\d+$')
     float_pattern = re.compile(r'^\d+\.\d+$')
-
+    str_pattern = re.compile(r'^".*"$')
     if (int_pattern.match(attributeValue)):
         attributeValue = int(attributeValue)
     elif (float_pattern.match(attributeValue)):
         attributeValue = float(attributeValue)
+    elif (str_pattern.match(attributeValue)):
+        attributeValue = attributeValue.strip("\"")
     return (attributeValue)
 
 
