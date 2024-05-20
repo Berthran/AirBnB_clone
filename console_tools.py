@@ -104,7 +104,7 @@ def createClassInstance(classNameArgument):
     availableClasses = {"BaseModel": BaseModel(),
                         "FileStorage": FileStorage(),
                         "User": User(),
-                        "State:" State(),
+                        "State": State(),
                         "City": City(),
                         "Amenity": Amenity(),
                         "Place": Place(),
