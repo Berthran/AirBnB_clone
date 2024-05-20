@@ -7,8 +7,9 @@ Functions:
     modifyKwargsForInstantiation: takes the attributes and suit them up for instantiation
 '''
 
-
+from models.user import User
 from datetime import datetime
+from models.base_model import BaseModel
 
 
 def modifyKwargsForInstantiation(**kwargs):
@@ -35,3 +36,12 @@ def modifyKwargsForInstantiation(**kwargs):
                     datetime.fromisoformat(str_format_of_updated_at)
             kwargs["updated_at"] = datetime_format_of_updated_at
     return (kwargs)
+
+
+def createInstanceByClassName(classNameOfInstance, instanceAttributes):
+    '''Creates an instance of a class specified by classNameOfInstance'''
+    availableInstances = {"BaseModel": BaseModel(**instanceAttributes),
+                          "User": User(**instanceAttributes)}
+    for className, instance in availableInstances.items():
+        if (className == classNameOfInstance):
+            return (instance)
