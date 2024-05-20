@@ -64,16 +64,16 @@ class FileStorage():
             # Open file.json only if it exists
             with open(FileStorage.__file_path, "r") as json_file:
                 recordOfInstancesInStringFormat = json_file.read()
-                recordOfinstancesInDictForm = \
-                        json.loads((recordOfinstancesInStringFormat))
+                recordOfInstancesInDictForm = \
+                        json.loads((recordOfInstancesInStringFormat))
                 for instanceRecord in recordOfInstancesInDictForm.values():
                     classNameOfInstance = instanceRecord["__class__"]
                     instanceAttributes = \
-                        modifyKwargsForInstantiation(**inst_dict)
+                        modifyKwargsForInstantiation(**instanceRecord)
                     instance = \
                         createInstanceByClassName(classNameOfInstance,
                                 **instanceAttributes)
                     # Add instance to <objects> attribute
                     self.new(instance)
-        except Exception:
-            pass
+        except Exception as e:
+            print(e)
