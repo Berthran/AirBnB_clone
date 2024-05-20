@@ -8,7 +8,12 @@ Functions:
     them up for instantiation
 '''
 
+from models.city import City
 from models.user import User
+from models.state import State
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 from datetime import datetime
 from models.base_model import BaseModel
 
@@ -46,7 +51,12 @@ def modifyKwargsForInstantiation(**kwargs):
 def createInstanceByClassName(classNameOfInstance, **instanceAttributes):
     '''Creates an instance of a class specified by classNameOfInstance'''
     availableInstances = {"BaseModel": BaseModel(**instanceAttributes),
-                          "User": User(**instanceAttributes)}
+                          "User": User(**instanceAttributes),
+                          "State": State(**instanceAttributes),
+                          "City": City(**instanceAttributes),
+                          "Place": Place(**instanceAttributes),
+                          "Amenity": Amenity(**instanceAttributes),
+                          "Review": Review(**instanceAttributes)}
     for className, instance in availableInstances.items():
         if (className == classNameOfInstance):
             return (instance)
