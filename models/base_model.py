@@ -10,7 +10,7 @@ Classes:
 
 import uuid
 import models
-from models.reload_tools import modifyKwargsForInstantiation
+from models import reload_tools
 from datetime import datetime
 
 
@@ -44,7 +44,8 @@ class BaseModel():
             # Add the instance to a storage for instances
             models.storage.new(self)
         else:
-            kwargsForInstantiation = modifyKwargsForInstantiation(**kwargs)
+            kwargsForInstantiation = \
+                    reload_tools.modifyKwargsForInstantiation(**kwargs)
             # Initialize instance with the modified attributes in kwargs
             for attribute, value in kwargsForInstantiation.items():
                 # Add the attributes and their values to the __dict__
