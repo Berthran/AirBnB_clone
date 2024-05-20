@@ -4,7 +4,8 @@ This module handles the storage, serialization and deserialization of instances
 in the models package.
 
 Class:
-    FileStorage: stores instances to a file, serializes instances to a JSON file
+    FileStorage: stores instances to a file, serializes
+    instances to a JSON file
     and deserializes a JSON file to instances
 '''
 
@@ -20,13 +21,17 @@ class FileStorage():
 
     Class attributes:
         file_path: string - path to the JSON file : private class attribute
-        objects: a dictionary used to store all instances created with the unique key
+        objects: a dictionary used to store all instances created
+        with the unique key
                  <class_name.id> : private class attribute
     Methods:
         all: returns the <objects> attribute
         new: add new instances to the <objects> attribute
-        save: serializes the instances in the <objects> attribute and stores them in the JSON file specified in <file_path>
-        reload: deserializes the JSON file to dictionary objects, creates instances and loads the instances into the <objects> attribute (only if the JSON file exists).
+        save: serializes the instances in the <objects> attribute and
+        stores them in the JSON file specified in <file_path>
+        reload: deserializes the JSON file to dictionary objects, creates
+        instances and loads the instances into the <objects>
+        attribute (only if the JSON file exists).
     '''
 
     __file_path = "file.json"
@@ -37,7 +42,8 @@ class FileStorage():
         return (FileStorage.__objects)
 
     def new(self, obj):
-        '''Add an instance/object to the <objects> attribute with a unique ID'''
+        '''Add an instance/object to the <objects> attribute
+        with a unique ID'''
         # Create a unique instance id using class name and instance id
         class_name = obj.__class__.__name__
         instance_id = obj.id
@@ -46,7 +52,8 @@ class FileStorage():
         FileStorage.__objects.update({instance_storage_id: obj})
 
     def save(self):
-        '''Serializes the instances in the <objects> attributes and stores them to the JSON file'''
+        '''Serializes the instances in the <objects> attributes
+        and stores them to the JSON file'''
         # A container to store the serialized instances
         instance_storage = {}
         for instance_id, instance in FileStorage.__objects.items():
@@ -58,21 +65,21 @@ class FileStorage():
             json_file.write(instance_storage_in_JSON)
 
     def reload(self):
-        '''Deserializes the JSON file, creates instances and loads each instance into the
-        <objects> attribute'''
+        '''Deserializes the JSON file, creates instances and loads
+        each instance into the <objects> attribute'''
         try:
             # Open file.json only if it exists
             with open(FileStorage.__file_path, "r") as json_file:
                 recordOfInstancesInStringFormat = json_file.read()
                 recordOfInstancesInDictForm = \
-                        json.loads((recordOfInstancesInStringFormat))
+                    json.loads((recordOfInstancesInStringFormat))
                 for instanceRecord in recordOfInstancesInDictForm.values():
                     classNameOfInstance = instanceRecord["__class__"]
                     instanceAttributes = \
                         modifyKwargsForInstantiation(**instanceRecord)
                     instance = \
                         createInstanceByClassName(classNameOfInstance,
-                                **instanceAttributes)
+                                                  **instanceAttributes)
                     # Add instance to <objects> attribute
                     self.new(instance)
         except Exception as e:
