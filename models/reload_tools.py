@@ -38,7 +38,7 @@ def modifyKwargsForInstantiation(**kwargs):
     return (kwargs)
 
 
-def createInstanceByClassName(classNameOfInstance, instanceAttributes):
+def createInstanceByClassName(classNameOfInstance, **instanceAttributes):
     '''Creates an instance of a class specified by classNameOfInstance'''
     availableInstances = {"BaseModel": BaseModel(**instanceAttributes),
                           "User": User(**instanceAttributes)}
