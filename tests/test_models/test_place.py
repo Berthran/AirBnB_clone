@@ -85,11 +85,9 @@ class TestPlace(unittest.TestCase):
         place = Place()
         self.assertIn("longitude", dir(place))
         self.assertEqual(place.longitude, 0.0)
-    
+
     def test_amenityIds(self):
         '''Checks for a amenity_ids attribute set to empty string'''
         place = Place()
         self.assertIn("amenity_ids", dir(place))
         self.assertEqual(place.amenity_ids, [])
-
-

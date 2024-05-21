@@ -3,7 +3,7 @@
 Test cases for the FileStorage Class
 '''
 
-
+import json
 import unittest
 import datetime
 from models.base_model import BaseModel
@@ -45,6 +45,19 @@ class TestFilestorage(unittest.TestCase):
         storageModel.new(baseModel)
         instanceKey = baseModel.__class__.__name__ + "." + baseModel.id
         self.assertIn(instanceKey, storage)
+
+    def test_save(self):
+        '''Validates that an instance is saved into a JSON file'''
+        baseModel = BaseModel()
+        storage = FileStorage()
+        baseModel.name = "Gabriel"
+        baseModel.number = 52
+        baseModelKey = "BaseModel." + baseModel.id
+        baseModel.save()
+
+        with open(FileStorage._FileStorage__file_path, "r") as file:
+            json_objs = json.load(file)
+        self.assertIn(baseModelKey, json_objs.keys())
 
     def test_reload(self):
         '''Checks that persisted instances are reloaded'''
