@@ -19,26 +19,6 @@ from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
 
-def processClassNameIdArgumentToGetInstanceKey(classNameAndIdArgument):
-    '''Process the classNameAndIdArgument'''
-    empty = ""
-    if classNameAndIdArgument == empty:
-        print("** class name missing **")
-        return (None)
-    else:
-        check = classExists(classNameAndIdArgument)
-        if (check is True):
-            check = hasInstanceId(classNameAndIdArgument)
-            if (check is True):
-                check = instanceExists(classNameAndIdArgument)
-                if (check is True):
-                    instanceKey = createInstanceKey(classNameAndIdArgument)
-                    return (instanceKey)
-                return (None)
-            return (None)
-        return (None)
-
-
 def hasOnlyClassNameArgument(classNameArgument):
     '''Checks that <classNameArgument> has only the class
     name as its argument'''
@@ -46,18 +26,6 @@ def hasOnlyClassNameArgument(classNameArgument):
     if (noOfArgsInClassNameArgument == 1):
         return (True)
     return (False)
-
-
-def classExists(classNameArgument):
-    '''Returns true if the classNameArgument is an existing class object
-    in the module's namespace'''
-    nameSpaceOfModule = globals()
-    className = classNameArgument.split()[0]
-    if (className in nameSpaceOfModule):
-        return (True)
-    else:
-        print("** class doesn't exist **")
-        return (False)
 
 
 def isValidClassNameArgument(classNameArgument):
@@ -69,19 +37,52 @@ def isValidClassNameArgument(classNameArgument):
     return (False)
 
 
-def hasInstanceId(classNameAndIdArgument):
+def processClassNameIdAttributeToGetInstanceKey(classnameInstanceIdAttributes):
+    '''Process the classnameInstanceIdAttributes'''
+    empty = ""
+    if classnameInstanceIdAttributes == empty:
+        print("** class name missing **")
+        return (None)
+    else:
+        check = classExists(classnameInstanceIdAttributes)
+        if (check is True):
+            check = hasInstanceId(classnameInstanceIdAttributes)
+            if (check is True):
+                check = instanceExists(classnameInstanceIdAttributes)
+                if (check is True):
+                    instanceKey = \
+                            createInstanceKey(classnameInstanceIdAttributes)
+                    return (instanceKey)
+                return (None)
+            return (None)
+        return (None)
+
+
+def classExists(classnameInstanceIdAndAttributes):
+    '''Returns true if the classNameArgument is an existing class object
+    in the module's namespace'''
+    nameSpaceOfModule = globals()
+    className = classnameInstanceIdAndAttributes.split()[0]
+    if (className in nameSpaceOfModule):
+        return (True)
+    else:
+        print("** class doesn't exist **")
+        return (False)
+
+
+def hasInstanceId(classnameInstanceIdAndAttributes):
     '''Checks if the argument has an ID argument'''
-    if (len(classNameAndIdArgument.split()) == 2):
+    if (len(classnameInstanceIdAndAttributes.split()) >= 2):
         return (True)
     else:
         print("** instance id missing **")
         return (False)
 
 
-def instanceExists(classNameAndIdArgument):
+def instanceExists(classnameInstanceIdAndAttributes):
     '''Checks that both classname and id corresponding to an existing
     class instance'''
-    instanceKey = createInstanceKey(classNameAndIdArgument)
+    instanceKey = createInstanceKey(classnameInstanceIdAndAttributes)
     instanceRecords = storage.all()
     if (instanceKey in instanceRecords.keys()):
         return (True)
@@ -90,9 +91,10 @@ def instanceExists(classNameAndIdArgument):
         return (False)
 
 
-def createInstanceKey(classNameAndIdArgument):
+def createInstanceKey(classnameInstanceIdAndAttributes):
     '''Create a key from className and Id'''
-    instanceKey = classNameAndIdArgument.replace(" ", ".")
+    classname, instanceId = classnameInstanceIdAndAttributes.split()[:2]
+    instanceKey = classname + "." + instanceId
     return (instanceKey)
 
 
