@@ -15,7 +15,7 @@ from console_tools import getInstanceFromRecord, showInstance
 from console_tools import removeInstanceFromRecord
 from console_tools import saveChangesOnInstanceRecordToJSONFile
 from console_tools import displayAllInstances, displaySpecificInstances
-from console_tools import processClassNameIdArgumentToGetInstanceKey
+from console_tools import processClassNameIdAttributeToGetInstanceKey
 from console_tools import updateInstanceWithAttributeAndValue
 from console_tools import hasAttributeValue, hasAttributeName
 
@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         '''Prints the string representation of an instance based
         on the class name and id arguments'''
         instanceKey = \
-            processClassNameIdArgumentToGetInstanceKey(classNameAndIdArgument)
+            processClassNameIdAttributeToGetInstanceKey(classNameAndIdArgument)
         if (instanceKey is not None):
             instance = getInstanceFromRecord(instanceKey)
             showInstance(instance)
@@ -69,7 +69,7 @@ class HBNBCommand(cmd.Cmd):
         '''Removes an instance from the instance records
         and saves the changes'''
         instanceKey = \
-            processClassNameIdArgumentToGetInstanceKey(classNameAndIdArgument)
+            processClassNameIdAttributeToGetInstanceKey(classNameAndIdArgument)
         if (instanceKey is not None):
             removeInstanceFromRecord(instanceKey)
             saveChangesOnInstanceRecordToJSONFile()
@@ -88,10 +88,8 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, classNameIdAttributes):
         '''Updates an instance identified by CLassName and Id
         with the attributes'''
-        className, instanceId = classNameIdAttributes.split()[:2]
-        classNameAndId = className + " " + instanceId
         instanceKey = \
-            processClassNameIdArgumentToGetInstanceKey(classNameAndId)
+            processClassNameIdAttributeToGetInstanceKey(classNameIdAttributes)
         if (instanceKey is not None):
             check_attributeName = hasAttributeName(classNameIdAttributes)
             if (check_attributeName is True):
